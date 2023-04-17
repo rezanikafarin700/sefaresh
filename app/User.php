@@ -2,9 +2,11 @@
 
 namespace App;
 
+use App\Product;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -16,7 +18,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
+        'mobile',
+        'city',
     ];
 
     /**
@@ -25,7 +31,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
+        'api_token',
     ];
 
     /**
@@ -36,4 +44,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    public function generateToken()
+    {
+        $token =   Str::random(100);;
+        $this->api_token = $token;
+        $this->save();
+        return $token;
+    }
+
+
 }
