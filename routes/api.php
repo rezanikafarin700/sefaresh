@@ -30,8 +30,8 @@ Route::group(['prefix' => 'products'],function (){
     Route::namespace('\App\Http\Controllers\API')->group(function (){
         Route::get('/','ProductController@index');
         Route::get('/{id}','ProductController@show');
-        Route::post('/','ProductController@store');
-        Route::put('/{id}','ProductController@update');
-        Route::delete('/{id}','ProductController@destroy');
+        Route::post('/','ProductController@store')->middleware('auth:api');
+        Route::put('/{id}','ProductController@update')->middleware('auth:api');
+        Route::delete('/{id}','ProductController@destroy')->middleware('auth:api');
     });
 });
