@@ -28,16 +28,13 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $header = $request->header('Authorization');
-        $token = Str::startsWith($header,'Bearer ') ? Str::substr($header,7) : null;
-        $user = $token ? User::where('api_token',$token)->first() : null;
-        $user->api_token = null;
-        $user->save();
-        return response($user,201);
+       $user = auth('api')->user();
+       $user->logout();
+       return $user;
     }
 
     public function user()
     {
-        return \auth('api')->user();
+        return auth('api')->user();
     }
 }

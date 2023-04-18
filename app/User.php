@@ -59,5 +59,12 @@ class User extends Authenticatable
         return $token;
     }
 
+    public function logout()
+    {
+        $this->api_token = null;
+        $this->save();
+        return $this;
+    }
+
 
 }
